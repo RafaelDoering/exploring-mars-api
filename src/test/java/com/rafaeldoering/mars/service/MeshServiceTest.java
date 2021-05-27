@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.mockito.Mockito.when;
 
@@ -37,5 +38,12 @@ class MeshServiceTest {
     Mesh newMesh = meshService.createMesh(new Mesh("Mars 3", 1L, 1L));
     Assertions.assertNotNull(newMesh);
     Assertions.assertEquals("Mars 3", newMesh.getName());
+  }
+
+  @Test
+  @DisplayName("Should return meshs")
+  void getMeshs_shouldReturnMeshList() {
+    Assertions.assertNotNull(meshService.getMeshs(PageRequest.of(0, 2)));
+    Assertions.assertEquals("Mars", meshService.getMeshs(PageRequest.of(0, 2)).getContent().get(0).getName());
   }
 }

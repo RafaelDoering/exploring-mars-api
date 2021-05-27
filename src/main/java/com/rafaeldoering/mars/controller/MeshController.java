@@ -1,9 +1,12 @@
 package com.rafaeldoering.mars.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +39,12 @@ public class MeshController {
   @PostMapping()
   public Mesh postMesh(@Valid @RequestBody MeshDto mesh) {
     return meshService.createMesh(MeshDto.toMesh(mesh));
+  }
+
+  @Operation(summary = "Get all meshs")
+  @GetMapping()
+  public Page<Mesh> getMeshs(Pageable pageable) {
+    return meshService.getMeshs(pageable);
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
