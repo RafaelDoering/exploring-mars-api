@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,6 +54,12 @@ public class MeshController {
   @GetMapping("/{id}")
   public Mesh getMesh(@PathVariable("id") Long id) {
     return meshService.getMesh(id);
+  }
+
+  @Operation(summary = "Delete a mesh")
+  @DeleteMapping("/{id}")
+  public Mesh deleteMesh(@PathVariable("id") Long id) {
+    return meshService.deleteMesh(id);
   }
 
   @ExceptionHandler

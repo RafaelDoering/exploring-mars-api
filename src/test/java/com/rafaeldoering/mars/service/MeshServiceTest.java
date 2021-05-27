@@ -57,4 +57,12 @@ class MeshServiceTest {
     Assertions.assertNotNull(mesh);
     Assertions.assertEquals("Mars", mesh.getName());
   }
+
+  @Test
+  @DisplayName("Should delete and return mesh")
+  void deleteMesh_shouldDeleteAndReturnMesh() {
+    Mesh mesh = meshService.deleteMesh(0L);
+    Assertions.assertNotNull(mesh);
+    Assertions.assertEquals("Mars", mesh.getName());
+  }
 }

@@ -36,4 +36,16 @@ public class MeshService {
 
     return mesh.get();
   }
+
+  public Mesh deleteMesh(Long id) {
+    Optional<Mesh> mesh = meshRepository.findById(id);
+
+    if (mesh.isEmpty()) {
+      throw new MeshNotFoundException();
+    }
+
+    meshRepository.deleteById(id);
+
+    return mesh.get();
+  }
 }
