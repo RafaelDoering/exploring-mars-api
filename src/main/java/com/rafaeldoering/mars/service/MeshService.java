@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.rafaeldoering.mars.model.Mesh;
 
+import java.util.Optional;
+
+import com.rafaeldoering.mars.exception.MeshNotFoundException;
 import com.rafaeldoering.mars.repository.MeshRepository;
 
 @Service
@@ -22,5 +25,15 @@ public class MeshService {
 
   public Page<Mesh> getMeshs(Pageable pageable) {
     return meshRepository.findAll(pageable);
+  }
+
+  public Mesh getMesh(Long id) {
+    Optional<Mesh> mesh = meshRepository.findById(id);
+
+    if (mesh.isEmpty()) {
+      throw new MeshNotFoundException();
+    }
+
+    return mesh.get();
   }
 }

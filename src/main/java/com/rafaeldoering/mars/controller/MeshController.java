@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import javax.validation.Valid;
 
 import com.rafaeldoering.mars.model.Mesh;
 import com.rafaeldoering.mars.dto.model.MeshDto;
+import com.rafaeldoering.mars.exception.MeshNotFoundException;
 import com.rafaeldoering.mars.service.MeshService;
 import com.rafaeldoering.mars.util.ExceptionResponse;
 
@@ -45,6 +47,20 @@ public class MeshController {
   @GetMapping()
   public Page<Mesh> getMeshs(Pageable pageable) {
     return meshService.getMeshs(pageable);
+  }
+
+  @Operation(summary = "Get a mesh")
+  @GetMapping("/{id}")
+  public Mesh getMesh(@PathVariable("id") Long id) {
+    return meshService.getMesh(id);
+  }
+
+  @ExceptionHandler
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  private ExceptionResponse meshNotFoundHandler(MeshNotFoundException exception) {
+    List<String> errors = new ArrayList<>();
+    errors.add(exception.getMessage());
+    return new ExceptionResponse(HttpStatus.NOT_FOUND.value(), errors);
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)

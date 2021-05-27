@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.rafaeldoering.mars.repository.MeshRepository;
 import com.rafaeldoering.mars.model.Mesh;
@@ -27,9 +28,11 @@ class MeshServiceTest {
 
   @BeforeEach
   void setMockOutput() {
+    Mesh mesh = new Mesh("Mars", 1L, 1L);
     List<Mesh> meshList = new ArrayList<Mesh>();
-    meshList.add(new Mesh("Mars", 1L, 1L));
+    meshList.add(mesh);
     when(meshRepository.findAll()).thenReturn(meshList);
+    when(meshRepository.findById(0L)).thenReturn(Optional.of(mesh));
   }
 
   @Test
@@ -45,5 +48,13 @@ class MeshServiceTest {
   void getMeshs_shouldReturnMeshList() {
     Assertions.assertNotNull(meshService.getMeshs(PageRequest.of(0, 2)));
     Assertions.assertEquals("Mars", meshService.getMeshs(PageRequest.of(0, 2)).getContent().get(0).getName());
+  }
+
+  @Test
+  @DisplayName("Should find Mars mesh")
+  void getMesh_shouldFindAMesh() {
+    Mesh mesh = meshService.getMesh(0L);
+    Assertions.assertNotNull(mesh);
+    Assertions.assertEquals("Mars", mesh.getName());
   }
 }
