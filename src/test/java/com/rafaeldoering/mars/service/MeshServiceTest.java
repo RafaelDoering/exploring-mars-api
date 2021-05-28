@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Assertions;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.mockito.Mockito.when;
@@ -31,7 +33,9 @@ class MeshServiceTest {
     Mesh mesh = new Mesh("Mars", 1L, 1L);
     List<Mesh> meshList = new ArrayList<Mesh>();
     meshList.add(mesh);
-    when(meshRepository.findAll()).thenReturn(meshList);
+
+    Page<Mesh> meshPage = new PageImpl<Mesh>(meshList.subList(0, 1));
+    when(meshRepository.findAll(PageRequest.of(0, 1))).thenReturn(meshPage);
     when(meshRepository.findById(0L)).thenReturn(Optional.of(mesh));
   }
 
@@ -46,8 +50,8 @@ class MeshServiceTest {
   @Test
   @DisplayName("Should return meshs")
   void getMeshs_shouldReturnMeshList() {
-    Assertions.assertNotNull(meshService.getMeshs(PageRequest.of(0, 2)));
-    Assertions.assertEquals("Mars", meshService.getMeshs(PageRequest.of(0, 2)).getContent().get(0).getName());
+    Assertions.assertNotNull(meshService.getMeshs(PageRequest.of(0, 1)));
+    Assertions.assertEquals("Mars", meshService.getMeshs(PageRequest.of(0, 1)).getContent().get(0).getName());
   }
 
   @Test
