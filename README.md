@@ -4,9 +4,17 @@
 - Install Java 11 on your computer.
 - Install dependencies with `mvnw install`.
 - Start the server with `mvnw spring-boot:run`.
+- Server will be running on port 8080
+## Running with docker
+- Install docker latest version.
+- Build the docker image with `docker build  -t exploring-mars-api .`
+- Run container with `docker run -p 8080:8080 exploring-mars-api`
+- Server will be running on port 8080
+
+# Swagger
+Swagger is accessible on `/swagger`
 
 ## Main libraries
-
 - Server
   - spring
 - Database
