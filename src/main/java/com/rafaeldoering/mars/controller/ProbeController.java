@@ -1,9 +1,12 @@
 package com.rafaeldoering.mars.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +44,12 @@ public class ProbeController {
   public Probe postProbe(@Valid @RequestBody ProbeDto probe) {
     return probeService.createProbe(probe.getName(), probe.getMeshId(), probe.getPositionX(), probe.getPositionY(),
         probe.getOrientation());
+  }
+
+  @Operation(summary = "Get all probes")
+  @GetMapping()
+  public Page<Probe> getProbes(Pageable pageable) {
+    return probeService.getProbes(pageable);
   }
 
   @ExceptionHandler

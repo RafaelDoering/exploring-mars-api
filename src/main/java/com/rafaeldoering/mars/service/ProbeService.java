@@ -1,6 +1,8 @@
 package com.rafaeldoering.mars.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.rafaeldoering.mars.model.Mesh;
@@ -40,5 +42,9 @@ public class ProbeService {
     probeRepository.save(probe);
 
     return probe;
+  }
+
+  public Page<Probe> getProbes(Pageable pageable) {
+    return probeRepository.findAll(pageable);
   }
 }
