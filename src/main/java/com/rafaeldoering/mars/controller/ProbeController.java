@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -22,6 +23,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.rafaeldoering.mars.model.Probe;
+import com.rafaeldoering.mars.dto.model.CommandsDto;
 import com.rafaeldoering.mars.dto.model.ProbeDto;
 import com.rafaeldoering.mars.exception.InvalidCommandException;
 import com.rafaeldoering.mars.exception.OccupiedPositionException;
@@ -57,6 +59,12 @@ public class ProbeController {
   @GetMapping("/{id}")
   public Probe getProbe(@PathVariable("id") Long id) {
     return probeService.getProbe(id);
+  }
+
+  @Operation(summary = "Move a probe")
+  @PutMapping("/{id}/move")
+  public Probe moveProbe(@PathVariable("id") Long id, @Valid @RequestBody CommandsDto commmands) {
+    return probeService.moveProbe(id, commmands.getCommands());
   }
 
   @ExceptionHandler
