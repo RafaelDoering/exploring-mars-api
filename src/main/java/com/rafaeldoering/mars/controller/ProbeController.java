@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +51,12 @@ public class ProbeController {
   @GetMapping()
   public Page<Probe> getProbes(Pageable pageable) {
     return probeService.getProbes(pageable);
+  }
+
+  @Operation(summary = "Get a probe")
+  @GetMapping("/{id}")
+  public Probe getProbe(@PathVariable("id") Long id) {
+    return probeService.getProbe(id);
   }
 
   @ExceptionHandler

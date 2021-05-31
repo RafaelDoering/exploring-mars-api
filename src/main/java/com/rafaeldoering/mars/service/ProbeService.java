@@ -9,9 +9,11 @@ import com.rafaeldoering.mars.model.Mesh;
 import com.rafaeldoering.mars.model.Probe;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.rafaeldoering.mars.exception.OccupiedPositionException;
 import com.rafaeldoering.mars.exception.OutOfBoundsException;
+import com.rafaeldoering.mars.exception.ProbeNotFoundException;
 import com.rafaeldoering.mars.repository.ProbeRepository;
 
 @Service
@@ -46,5 +48,15 @@ public class ProbeService {
 
   public Page<Probe> getProbes(Pageable pageable) {
     return probeRepository.findAll(pageable);
+  }
+
+  public Probe getProbe(Long id) {
+    Optional<Probe> probe = probeRepository.findById(id);
+
+    if (probe.isEmpty()) {
+      throw new ProbeNotFoundException();
+    }
+
+    return probe.get();
   }
 }
