@@ -97,6 +97,18 @@ public class ProbeService {
     return probeRepository.save(probe);
   }
 
+  public Probe deleteProbe(Long id) {
+    Optional<Probe> probe = probeRepository.findById(id);
+
+    if (probe.isEmpty()) {
+      throw new ProbeNotFoundException();
+    }
+
+    probeRepository.deleteById(id);
+
+    return probe.get();
+  }
+
   private Character getOrientationOnRotation(Character actualOrientation, Character rotation) {
     List<Character> coordinates = new ArrayList<>();
 

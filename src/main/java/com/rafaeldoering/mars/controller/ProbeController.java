@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,6 +66,12 @@ public class ProbeController {
   @PutMapping("/{id}/move")
   public Probe moveProbe(@PathVariable("id") Long id, @Valid @RequestBody CommandsDto commmands) {
     return probeService.moveProbe(id, commmands.getCommands());
+  }
+
+  @Operation(summary = "Delete a probe")
+  @DeleteMapping("/{id}")
+  public Probe deleteProbe(@PathVariable("id") Long id) {
+    return probeService.deleteProbe(id);
   }
 
   @ExceptionHandler
