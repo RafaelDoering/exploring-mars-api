@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.rafaeldoering.mars.repository.ProbeRepository;
+import com.rafaeldoering.mars.exception.OutOfBoundsException;
 import com.rafaeldoering.mars.model.Mesh;
 import com.rafaeldoering.mars.model.Probe;
 
@@ -58,5 +59,11 @@ class ProbeServiceTest {
     Probe probe = probeService.moveProbe(0L, "MMM");
     Assertions.assertNotNull(probe);
     Assertions.assertEquals(3L, probe.getPositionY());
+  }
+
+  @Test
+  @DisplayName("Should throw OutOfBoundException on move")
+  void moveProbe_shouldThrowOutOfBoundException() {
+    Assertions.assertThrows(OutOfBoundsException.class, () -> probeService.moveProbe(0L, "LLMMM"));
   }
 }
